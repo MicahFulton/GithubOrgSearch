@@ -1,15 +1,23 @@
 <div>
-  <span x-large>Your Content Here</span>
-  <form (ngSubmit)="submitState(localState.value)">
-    <input type="text" [value]="localState.value" (input)="localState.value = $event.target.value" autofocus>
-    <button>Submit Value</button>
-  </form>
-  <!--
-    Rather than wiring up two-way data-binding ourselves with [value] and (input)
-    we can use Angular's [(ngModel)] syntax
-    <input type="text" [(ngModel)]="localState.value" autofocus>
-  -->
-
-  <pre>this.localState = {{ localState | json }}</pre>
-
+    <div class="logos">
+        <div class="content-container">
+            <div>
+                <div class="logos__title">
+                    <h3>Search Results</h3>
+                </div>
+                <ul>
+                    <li *ngFor="#org of appState.filteredOrganizations" class="brand-logo">
+                        <a [routerLink]="['Organization']">
+                            <div class="brand-logo__image flex-center">
+                                <img src="{{'https://avatars.githubusercontent.com/u/' + org.id + '?=3'}}">
+                            </div>
+                            <div class="brand-logo__ctas">
+                                <strong>{{org.login}}</strong>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>

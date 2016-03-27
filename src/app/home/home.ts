@@ -43,4 +43,11 @@ export class Home {
     this.appState.set('value', value);
   }
 
+  search(value) {
+    //   var filtered = this.data.filter(function(org) {
+    //       return org.login.indexOf(value) !== -1;
+    //   })
+    //   console.log('filtered', filtered);
+  }
+
 }

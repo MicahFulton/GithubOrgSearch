@@ -1,8 +1,12 @@
 /*
  * Angular 2 decorators and services
  */
+
 import {Component} from 'angular2/core';
 import {RouteConfig, Router} from 'angular2/router';
+
+ import 'jquery';
+ import 'bootstrap-loader';
 
 import {Home} from './home';
 import {AppState} from './app.service';
@@ -16,51 +20,38 @@ import {AppState} from './app.service';
   pipes: [ ],
   providers: [ ],
   directives: [ ],
-  styles: [`
-    nav ul {
-      display: inline;
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      width: 60px;
-    }
-    nav li {
-      display: inline;
-    }
-    nav li.active {
-      background-color: lightgray;
-    }
-  `],
   template: `
-    <header>
-      <nav>
-        <h1>Hello {{ name }}</h1>
-        <ul>
-          <li router-active>
-            <a [routerLink]=" ['Index'] ">Index</a>
-          </li>
-          <li router-active>
-            <a [routerLink]=" ['Home'] ">Home</a>
-          </li>
-          <li router-active>
-            <a [routerLink]=" ['About'] ">About</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
-
+    <div class="header header_collapsed">
+        <div class="content-container">
+            <div class="flex-spread">
+                <a href="/" class="logo"></a>
+                <div class="ShareButtons">
+                    <a class="social-action social-action_twitter" target="_blank">
+                        <span>tweet</span>
+                    </a>
+                    <a class="social-action social-action_facebook" target="_blank">
+                        <span>share</span>
+                    </a>
+                    <a class="social-action social-action_github" target="_blank">
+                        <span>star</span>
+                    </a>
+                </div>
+            </div>
+            <div class="header-content">
+                <div class="search-container">
+                    <form method="GET">
+                        <label>
+                            <i class="search-icon"></i>
+                            <input [(ngModel)]="filter" class="search-input" type="text" autocomplete="off" placeholder="What company are you looking for?" name="q" value="" (keyup)="appState.filterOrganizations(filter)">
+                        </label>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <main>
-      <router-outlet></router-outlet>
-    </main>
-
-    <footer>
-      WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a>
-      <div>
-        <img [src]="angularclassLogo" width="10%">
-      </div>
-    </footer>
-
-    <pre>this.state = {{ state | json }}</pre>
+        <router-outlet></router-outlet>
+   </main>
   `
 })
 @RouteConfig([
@@ -68,6 +59,7 @@ import {AppState} from './app.service';
   { path: '/home',  name: 'Home',  component: Home },
   // Async load a component using Webpack's require with es6-promise-loader and webpack `require`
   { path: '/about', name: 'About', loader: () => require('es6-promise!./about')('About') },
+  { path: '/organization', name: 'Organization', loader: () => require('es6-promise!./organization')('Organization') }
 ])
 export class App {
   angularclassLogo = 'assets/img/angularclass-avatar.png';
@@ -82,6 +74,7 @@ export class App {
 
   ngOnInit() {
     console.log('Initial App State', this.state);
+    this.state.filteredOrganizations = [];
   }
 
 }

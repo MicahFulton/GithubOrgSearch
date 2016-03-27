@@ -1,4 +1,5 @@
 import {Component} from 'angular2/core';
+import {HTTP_PROVIDERS, Http, Request, RequestMethod, Headers} from 'angular2/http';
 
 /*
  * We're loading this component asynchronously
@@ -10,11 +11,19 @@ console.log('`About` component loaded asynchronously');
 
 @Component({
   selector: 'about',
-  template: `patrick@AngularClass.com`
+  template: require('./about.html')
 })
 export class About {
-  constructor() {
-
+  constructor(http:Http) {
+    http.request(new Request({
+      method: RequestMethod.Get,
+      url: 'https://api.github.com/repos/pobox/Bobo-Test/readme',
+      headers: new Headers({'Accept': 'application/vnd.github.full.html'})
+    })).subscribe(res => {
+        this.markdown = res._body;
+  //URL should have included '?password=123'
+  console.log('res', res);
+});;
   }
 
   ngOnInit() {
