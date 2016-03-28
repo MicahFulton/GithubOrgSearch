@@ -491,7 +491,7 @@ li,ul {
 .search-input {
     color: #555;
     background: transparent;
-    width: calc(100% - 34px);
+    width: 350px;
     outline: none;
     margin-top: -2px;
     border: none;
@@ -561,7 +561,7 @@ li,ul {
 }
 
 .header_collapsed .search-input {
-    width: calc(100% - 38px)
+    width: 350px;
 }
 
 .header_collapsed .header-content {
@@ -1225,5 +1225,39 @@ li,ul {
 
 .user_avatar {
     width: 290px;
+}
+.gravatar {
+    height: 36px;
+}
+.octicon-link {
+    display: none;
+}
+.col-right-content {
+    max-width: 71%;
+}
+
+.right-col-repos {
+     width: 70%;
+    float: right;
+    position: absolute;
+    right: 20px;
+    top: 80px;
+}
+
+.recent-commits {
+    width: 25%;
+    display: block;
+    margin: 40px;
+}
+.user-profile {
+    margin: 40px;
+    width: 25%;
+    display: inline-block;
+}
+.commit-message {
+    font-size: small;
+}
+.commit-timestamp {
+    font-size: smaller;
 }
 

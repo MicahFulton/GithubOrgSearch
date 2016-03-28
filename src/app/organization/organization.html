@@ -1,36 +1,8 @@
-<div class="container">
-    <div class="row">
-        <div class="col-sm-3">
-            <div id="user_profile">
-                <div class="user_avatar_wrapper hidden-xs hidden-sm">
-                    <a>
-                        <img class="user_avatar" src="https://avatars.githubusercontent.com/u/41340?v=3">
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-8">
-            <div class="page-header">
-                <h2>
-                    <a href="/pobox">pobox</a>
-                </h2>
-            </div>
-            <div class="list-group">
-                <a class="list-group-item paginated_full_item" [routerLink]="['About']">
-                    <span class="login">Bobo-Test</span>
-                    <span class="stargazers_count pull-right">
-                        <i class="fa fa-star"></i>
-                        21502
-                    </span>
-                </a>
-                <a class="list-group-item paginated_full_item" [routerLink]="['About']">
-                    <span class="login">Catalyst-Plugin-ApacheSession</span>
-                    <span class="stargazers_count pull-right">
-                        <i class="fa fa-star"></i>
-                        21502
-                    </span>
-                </a>
-            </div>
-        </div>
+<div class="user-profile">
+    <div class="user_avatar_wrapper hidden-xs hidden-sm">
+        <a>
+            <img class="user_avatar" src="{{avatar}}">
+        </a>
     </div>
 </div>
+<router-outlet></router-outlet>

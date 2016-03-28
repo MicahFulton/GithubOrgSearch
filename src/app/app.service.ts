@@ -4,12 +4,10 @@ import {Http} from 'angular2/http';
 
 @Injectable()
 export class AppState {
-  _state = {organizations: []}; // you must set the initial value
+  _state = {organizations: [], query: '', }; // you must set the initial value
+  filteredOrganizations: Array<String>;
   constructor(webpackState: WebpackState, public http: Http) {
     this._state = webpackState.select('AppState', () => this._state);
-    http.get('/assets/organizations.json')
-        .map(res => res.json())
-        .subscribe(data => this.organizations = data);;
   }
 
   get(prop?: any) {
@@ -21,13 +19,9 @@ export class AppState {
   }
 
   filterOrganizations(value) {
-      console.log(value);
-      if (value && value.length) {
-        this.filteredOrganizations = this.organizations.filter(function(org) {
-            return org && org.login && org.login.startsWith(value);
-        });
-        this.filteredOrganizations.length = 50;
-      }
+       this.http.get(`https://api.github.com/search/users?q=${value}&type=org&per_page=50`)
+        .map(res => res.json())
+        .subscribe(data => this.filteredOrganizations = data.items);
 
   }
 }

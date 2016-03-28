@@ -1,40 +1,39 @@
 import {Component} from 'angular2/core';
 import {HTTP_PROVIDERS, Http, Request, RequestMethod, Headers} from 'angular2/http';
+import {RouteConfig, RouteParams, Router, RouterOutlet, ROUTER_PROVIDERS, ROUTER_DIRECTIVES} from 'angular2/router';
+import {RepoListComponent} from './repo-list';
+import {Repo} from './repo';
 
-/*
- * We're loading this component asynchronously
- * We are using some magic with es6-promise-loader that will wrap the module with a Promise
- * see https://github.com/gdi2290/es6-promise-loader for more info
- */
-
-console.log('`About` component loaded asynchronously');
-
+@RouteConfig([
+    { path: '/', name: 'RepoListComponent', component: RepoListComponent, useAsDefault: true },
+    { path: ':repo', name: 'Repo', component: Repo }
+])
 @Component({
-  selector: 'about',
-  template: require('./organization.html')
+    selector: 'organization',
+    template: require('./organization.html'),
+    directives: []
 })
 export class Organization {
-  constructor(http:Http) {
-  }
+    organization: String;
+    repo: String;
+    avatar: String;
+    ownerName: String;
+    repos: Array<String>;
+    commits: Array<Object>;
 
-  ngOnInit() {
-    console.log('hello `org` component');
-    // static data that is bundled
-    this.asyncDataWithWebpack();
-  }
-  asyncDataWithWebpack() {
-    // you can also async load mock data with 'es6-promise-loader'
-    // you would do this if you don't want the mock-data bundled
-    // remember that 'es6-promise-loader' is a promise
-    // var asyncMockDataPromiseFactory = require('es6-promise!assets/mock-data/mock-data.json');
-    // setTimeout(() => {
+    constructor(public http: Http, private _router: Router, private _routeParams: RouteParams) {
+        this.organization = this._routeParams.get('organization');
+    }
 
-    //   let asyncDataPromise = asyncMockDataPromiseFactory();
-    //   asyncDataPromise.then(json => {
-    //     console.log('async mockData', json);
-    //   });
+    ngOnInit() {
+        this.repo = this._routeParams.get('repo');
+        this.http.get(`https://api.github.com/orgs/${this.organization}/repos?per_page=50`)
+            .map(res => res.json())
+            .subscribe(data => {
+                this.avatar = data[0].owner.avatar_url;
+                this.ownerName = data[0].owner.login;
+                this.repos = data.sort((a, b) => b.stargazers_count - a.stargazers_count);
+            });
 
-    // });
-  }
-
+    }
 }

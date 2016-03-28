@@ -3,46 +3,46 @@
  */
 
 import {Component} from 'angular2/core';
-import {RouteConfig, Router} from 'angular2/router';
+import {RouteConfig, Router, RouterOutlet, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 
  import 'jquery';
  import 'bootstrap-loader';
 
 import {Home} from './home';
+import {Organization} from './organization';
+import {Search} from './search';
 import {AppState} from './app.service';
 
-/*
- * App Component
- * Top Level Component
- */
 @Component({
   selector: 'app',
   pipes: [ ],
-  providers: [ ],
-  directives: [ ],
+  providers: [ROUTER_PROVIDERS],
+  directives: [ROUTER_DIRECTIVES],
   template: `
     <div class="header header_collapsed">
         <div class="content-container">
             <div class="flex-spread">
                 <a href="/" class="logo"></a>
                 <div class="ShareButtons">
-                    <a class="social-action social-action_twitter" target="_blank">
+                    <a class="social-action social-action_twitter" href="https://twitter.com/intent/tweet?text=Check%20out%20Github%20Organization%20Search!&url=https://github.com/MicahFulton/GithubOrgSearch" target="_blank">
                         <span>tweet</span>
                     </a>
-                    <a class="social-action social-action_facebook" target="_blank">
+                    <a class="social-action social-action_facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://github.com/MicahFulton/GithubOrgSearch" target="_blank">
                         <span>share</span>
                     </a>
-                    <a class="social-action social-action_github" target="_blank">
+                    <a class="social-action social-action_github" href="https://github.com/MicahFulton/GithubOrgSearch" target="_blank">
                         <span>star</span>
                     </a>
                 </div>
             </div>
             <div class="header-content">
                 <div class="search-container">
-                    <form method="GET">
+                    <form>
                         <label>
-                            <i class="search-icon"></i>
-                            <input [(ngModel)]="filter" class="search-input" type="text" autocomplete="off" placeholder="What company are you looking for?" name="q" value="" (keyup)="appState.filterOrganizations(filter)">
+                            <a [routerLink]="['Index']">
+                                <i class="search-icon"></i>
+                            </a>
+                            <input id='searchInput' [hidden]="isRouteActive(['./Index'])" [(ngModel)]="state.query" class="search-input" type="text" autocomplete="off" placeholder="What organization are you looking for?" name="q" value="" (keyup)="search(state.query)">
                         </label>
                     </form>
                 </div>
@@ -55,34 +55,33 @@ import {AppState} from './app.service';
   `
 })
 @RouteConfig([
-  { path: '/',      name: 'Index', component: Home, useAsDefault: true },
-  { path: '/home',  name: 'Home',  component: Home },
-  // Async load a component using Webpack's require with es6-promise-loader and webpack `require`
-  { path: '/about', name: 'About', loader: () => require('es6-promise!./about')('About') },
-  { path: '/organization', name: 'Organization', loader: () => require('es6-promise!./organization')('Organization') }
+  { path: '/', name: 'Index', component: Home, useAsDefault: true },
+  { path: '/search', name: 'Search', component: Search},
+  { path: '/:organization/...', name: 'Organization', component: Organization}
 ])
 export class App {
-  angularclassLogo = 'assets/img/angularclass-avatar.png';
-  name = 'Angular 2 Webpack Starter';
-  url = 'https://twitter.com/AngularClass';
 
-  constructor(public appState: AppState) {}
+  constructor(public appState: AppState, private router: Router) {
+
+  }
 
   get state() {
     return this.appState.get();
   }
 
   ngOnInit() {
-    console.log('Initial App State', this.state);
-    this.state.filteredOrganizations = [];
+      this.state.filteredOrganizations = [];
+  }
+
+  search(query) {
+      if (!this.isRouteActive(['Search'])) {
+          this.router.navigate(['Search', { q: query }]);
+          this.appState.filterOrganizations(query);
+      }
+  }
+
+  isRouteActive(route) {
+    return this.router.isRouteActive(this.router.generate(route));
   }
 
 }
-
-/*
- * Please review the https://github.com/AngularClass/angular2-examples/ repo for
- * more angular app examples that you may copy/paste
- * (The examples may not be updated as quickly. Please open an issue on github for us to update it)
- * For help or questions please contact us at @AngularClass on twitter
- * or our chat on Slack at https://AngularClass.com/slack-join
- */

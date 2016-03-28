@@ -1,23 +1,29 @@
-<div>
-    <div class="logos">
-        <div class="content-container">
-            <div>
-                <div class="logos__title">
-                    <h3>Search Results</h3>
-                </div>
-                <ul>
-                    <li *ngFor="#org of appState.filteredOrganizations" class="brand-logo">
-                        <a [routerLink]="['Organization']">
-                            <div class="brand-logo__image flex-center">
-                                <img src="{{'https://avatars.githubusercontent.com/u/' + org.id + '?=3'}}">
-                            </div>
-                            <div class="brand-logo__ctas">
-                                <strong>{{org.login}}</strong>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+<div class="content-container">
+    <div class="header-content">
+        <h1 class="text-xs-center"><strong>Github Organization Search</strong></h1>
+        <h2 class="text-xs-center">Search &amp; browse thousands of organizations instantly</h2>
+        <div class="search-container">
+            <form>
+                <label>
+                    <i class="search-icon"></i>
+                    <input [(ngModel)]="state.query" class="search-input" type="text" autocomplete="off" placeholder="What organization are you looking for?" name="q" value="" (keyup)="navigateToSearch(state.query)" autofocus>
+                </label>
+            </form>
         </div>
     </div>
+    <div class="logos__title">
+        <h4>Popular Organizations</h4>
+    </div>
+    <ul>
+        <li *ngFor="#org of popularOrgs" class="brand-logo">
+            <a [routerLink]="['../Organization', {organization: org.login}]">
+                <div class="brand-logo__image flex-center">
+                    <img src="{{'https://avatars.githubusercontent.com/u/' + org.id + '?=3'}}">
+                </div>
+                <div class="text-xs-center">
+                    <strong>{{org.login}}</strong>
+                </div>
+            </a>
+        </li>
+    </ul>
 </div>

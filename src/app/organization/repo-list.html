@@ -1,0 +1,16 @@
+<div class="right-col-repos">
+    <div class="page-header">
+        <h2>
+            <a>{{organization}}</a>
+        </h2>
+    </div>
+    <div class="list-group">
+        <a class="list-group-item paginated_full_item" *ngFor="#repo of repos" [routerLink]="['Repo', {repo: repo.name}]">
+            <span class="login">{{repo.name}}</span>
+            <span class="stargazers_count pull-xs-right">
+                <i class="fa fa-star"></i>
+                {{repo.stargazers_count}}
+            </span>
+        </a>
+    </div>
+</div>
