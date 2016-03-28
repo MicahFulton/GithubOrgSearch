@@ -1,0 +1,62 @@
+[
+    {
+        "login": "google",
+        "id": 1342004
+    },
+    {
+        "login": "facebook",
+        "id": 69631
+    },
+    {
+        "login": "twitter",
+        "id": 50278
+    },
+    {
+        "login": "github",
+        "id": 9919
+    },
+    {
+        "login": "mozilla",
+        "id": 131524
+    },
+    {
+        "login": "angular",
+        "id": 139426
+    },
+    {
+        "login": "netflix",
+        "id": 913567
+    },
+    {
+        "login": "rails",
+        "id": 4223
+    },
+    {
+        "login": "joyent",
+        "id": 10161
+    },
+    {
+        "login": "docker",
+        "id": 5429470
+    },
+    {
+        "login": "gruntjs",
+        "id": 1630826
+    },
+    {
+        "login": "airbnb",
+        "id": 698437
+    },
+    {
+        "login": "yeoman",
+        "id": 1714870
+    },
+    {
+        "login": "bower",
+        "id": 3709251
+    },
+    {
+        "login": "jenkinsci",
+        "id": 107424
+    }
+]
